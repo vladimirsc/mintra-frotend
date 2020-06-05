@@ -1,0 +1,161 @@
+<div class="row">
+  <div class="col-md-12">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Acción realizada por el Acuerdo
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+
+        <form [formGroup]="accionRealizadaForm" class="connsat-form-theme">
+          <div class="row">
+            <div class="col-sm-6 col-md-12">
+              <mat-form-field appearance="outline">
+                <mat-label>Acción que se realizará</mat-label>
+                <input matInput placeholder="Acción que se realizará" name="accionDescripcion"
+                       formControlName="accionDescripcion">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6 col-md-6">
+              <mat-form-field appearance="outline">
+                <mat-label>Responsable</mat-label>
+                <input matInput placeholder="Responsable" name="responsable"
+                       formControlName="responsable">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6 col-md-6">
+              <mat-form-field appearance="outline">
+                <mat-label>Entidad</mat-label>
+                <input matInput placeholder="Entidad" name="entidad"
+                       formControlName="entidad">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6 col-md-3">
+              <mat-form-field appearance="outline">
+                <mat-label>Fecha en la que se Ejecutará</mat-label>
+                <input matInput [matDatepicker]="pickerFechaEjecutara" placeholder="Fecha en la que se Ejecutará"
+                       formControlName="fechaEjecutara"
+                       [readonly]="true"
+                       name="fechaEjecutara"
+                       required>
+                <mat-datepicker-toggle matSuffix [for]="pickerFechaEjecutara"></mat-datepicker-toggle>
+                <mat-datepicker #pickerFechaEjecutara startView="year"
+                                [startAt]="fecha_nacimiento_inicio"></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6 col-md-1">
+              <section class="app-checkbok-form-field">
+                <mat-checkbox matInput formControlName="fueEjecutado"> ¿ Se Ejecutó ?</mat-checkbox>
+              </section>
+            </div>
+            <div class="col-sm-6 col-md-3">
+              <mat-form-field appearance="outline">
+                <mat-label>Fecha en la que se Ejecutó</mat-label>
+                <input matInput [matDatepicker]="pickerFechaEjecuto" placeholder="Fecha en la que se Ejecutó"
+                       formControlName="fechaEjecuto"
+                       [readonly]="true"
+                       name="fechaEjecuto"
+                       required>
+                <mat-datepicker-toggle matSuffix [for]="pickerFechaEjecuto"></mat-datepicker-toggle>
+                <mat-datepicker #pickerFechaEjecuto startView="year"
+                                [startAt]="fecha_nacimiento_inicio"></mat-datepicker>
+              </mat-form-field>
+            </div>
+            <div class="col-sd-6 col-md-4">
+              <mat-form-field appearance="fill">
+                <mat-label>Adjuntar</mat-label>
+                <ngx-mat-file-input accept="application/pdf" placeholder="Adjuntar"
+                                    formControlName="adjunto"
+                                    [accept]="'.pdf'"
+                                    [multiple]="false"></ngx-mat-file-input>
+                <mat-icon matSuffix>folder</mat-icon>
+              </mat-form-field>
+            </div>
+          </div>
+        </form>
+        <br/>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="offset-md-10 col-md-1">
+              <button type="button" mat-raised-button class="unicorn-dark-theme" color="primary"
+                      (click)="agregarAccion()">
+                <mat-icon>person_outline</mat-icon>
+                Agregar Acción
+              </button>
+            </div>
+          </div>
+        </div>
+        <br/>
+        <div class="row">
+          <div class="col-md-12">
+            <table mat-table [dataSource]="accionList" matSort>
+
+              <ng-container matColumnDef="nro">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> NRO.</th>
+                <td mat-cell *matCellDef="let i=index"> {{i + 1}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="acciones">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> ACCCIONES</th>
+                <td mat-cell *matCellDef="let row"> {{row.acciones}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="responsable">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> RESPONSABLE</th>
+                <td mat-cell *matCellDef="let row"> {{row.responsable}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="registro">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> REGISTRO</th>
+                <td mat-cell *matCellDef="let row"> {{row.registro}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="archivo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> ARCHIVO</th>
+                <td mat-cell *matCellDef="let row"> {{row.archivo}} </td>
+              </ng-container>
+
+
+              <ng-container matColumnDef="ejecuto">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> ¿EJECUTO?</th>
+                <td mat-cell *matCellDef="let row">
+                  <mat-checkbox [checked]="row.ejecuto" disabled="true"></mat-checkbox>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="fecha">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> FECHA</th>
+                <td mat-cell *matCellDef="let row"> {{row.fecha}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="eliminar">
+                <th mat-header-cell *matHeaderCellDef class="text-center"> ELIMINAR</th>
+                <td mat-cell *matCellDef="let row" class="text-center">
+                  <button mat-stroked-button matTooltip="Eliminar Registro" color="accent"
+                          (click)="eliminarAccion(row.id)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+            <div *ngIf="accionList.length == 0"> * No Hay Acciones Registradas aun</div>
+          </div>
+        </div>
+
+      </mat-card-content>
+    </mat-card>
+
+  </div>
+</div>

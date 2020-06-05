@@ -1,0 +1,219 @@
+<div class="row  app-title-page">
+  <h1 class="col-md-12">CONSEJEROS</h1>
+  <div class="col-md-6 text-right">
+  </div>
+</div>
+
+
+<form [formGroup]="busquedaForm">
+  <div class="row">
+    <div class="col-md-12">
+
+
+      <div class="row">
+        <div class="col-md-12">
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>Criterios de Consulta del Consejero
+              </mat-card-title>
+            </mat-card-header>
+
+            <mat-card-content>
+
+              <div class="row">
+                <div class="col-sm-6 col-md-3">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Número de Documento de Designación</mat-label>
+                    <input matInput placeholder="Número de Documento de Designación" name="documentoDesginacion"
+                           formControlName="documentoDesginacion">
+                  </mat-form-field>
+                </div>
+
+                <div class="col-sm-6 col-md-2">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Fecha Inicio</mat-label>
+                    <input matInput [matDatepicker]="picker" placeholder="Fecha Inicio" formControlName="fechaInicio"
+                           [readonly]="true"
+                           name="fecha_inicio"
+                    >
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker startView="year" [startAt]="fecha_nacimiento_inicio"></mat-datepicker>
+                  </mat-form-field>
+                </div>
+                <div class="col-sm-6 col-md-2">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Fecha Fin</mat-label>
+                    <input matInput [matDatepicker]="picker2" placeholder="Fecha Fin" formControlName="fechaFin"
+                           [readonly]="true"
+                           name="fecha_fin">
+                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                    <mat-datepicker #picker2 startView="year" [startAt]="fecha_nacimiento_inicio"></mat-datepicker>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-sm-6 col-md-2">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Tipo de documento</mat-label>
+                    <mat-select placeholder="Tipo de documento" formControlName="tipoDocumento"
+                                name="tipoDocumento">
+                      <mat-option *ngFor="let documentoTipo of documentosTipo" [value]="documentoTipo.codigo">
+                        {{documentoTipo.descripcion}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Número de documento</mat-label>
+                    <input matInput placeholder="Número de documento" name="numeroDocumento"
+                           formControlName="numeroDocumento">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6 col-md-3">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Nombres Consejero</mat-label>
+                    <input matInput placeholder="Nombres Consejero" name="nombres" formControlName="nombres">
+                  </mat-form-field>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Apellido Paterno</mat-label>
+                    <input matInput placeholder="Apellido Paterno" name="apellido_paterno"
+                           formControlName="apellidoPaterno">
+                  </mat-form-field>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Apellido Materno</mat-label>
+                    <input matInput placeholder="Apellido Materno" name="apellido_materno"
+                           formControlName="apellidoMaterno">
+                  </mat-form-field>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Entidad a la que Representa</mat-label>
+                    <mat-select placeholder="Entidad  a la que Representa" formControlName="entidad"
+                                name="entidad">
+                      <mat-option *ngFor="let entidad of entidades" [value]="entidad.codigo">
+                        {{entidad.descripcion}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-sm-6 col-md-12 app-search-buttons app-form-buttons">
+                  <button mat-raised-button color="primary">
+                    <mat-icon>search</mat-icon>
+                    Buscar
+                  </button>
+                  <button mat-raised-button color="accent" (click)="nuevoRegistro()">
+                    <mat-icon class="material-icons-outlined">insert_drive_file</mat-icon>
+                    Nuevo
+                  </button>
+                </div>
+              </div>
+
+            </mat-card-content>
+          </mat-card>
+
+
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>Listado de Consejeros
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+
+              <table mat-table [dataSource]="dataSource" matSort>
+
+                <ng-container matColumnDef="nro">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> NRO.</th>
+                  <td mat-cell *matCellDef="let i=index"> {{i + 1}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="tipo">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> TIPO DOC.</th>
+                  <td mat-cell *matCellDef="let row"> {{row.tipoDocumento}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="numero">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> NUMERO DOC.</th>
+                  <td mat-cell *matCellDef="let row"> {{row.numeroDocumento}} </td>
+                </ng-container>
+
+
+                <ng-container matColumnDef="nombres">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> NOMBRES</th>
+                  <td mat-cell *matCellDef="let row"> {{row.nombres}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="apellidoPaterno">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> APELLIDO PAT.</th>
+                  <td mat-cell *matCellDef="let row"> {{row.numeroDocumento}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="apellidoMaterno">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> APELLIDO MAT.</th>
+                  <td mat-cell *matCellDef="let row"> {{row.apellidoMaterno}} </td>
+                </ng-container>
+
+
+                <ng-container matColumnDef="entidad">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> ENTIDAD</th>
+                  <td mat-cell *matCellDef="let row"> {{row.entidad}} </td>
+                </ng-container>
+
+
+                <ng-container matColumnDef="documentoDesignado">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> DOCUMENTO</th>
+                  <td mat-cell *matCellDef="let row"> {{row.documentoDesignado}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="fecha">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> FECHA</th>
+                  <td mat-cell *matCellDef="let row"> {{row.fecha}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="ver">
+                  <th mat-header-cell *matHeaderCellDef class="text-center"> VISUALIZAR</th>
+                  <td mat-cell *matCellDef="let row" class="text-center">
+                    <button mat-stroked-button matTooltip="Ver Registro" color="primary"
+                            (click)="verRegistro(row.id)">
+                      <mat-icon>remove_red_eye</mat-icon>
+                    </button>
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="editar">
+                  <th mat-header-cell *matHeaderCellDef class="text-center"> EDITAR</th>
+                  <td mat-cell *matCellDef="let row" class="text-center">
+                    <button mat-stroked-button matTooltip="Editar Registro" color="primary"
+                            (click)="editarRegistro(row.id)">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="eliminar">
+                  <th mat-header-cell *matHeaderCellDef class="text-center"> ELIMINAR</th>
+                  <td mat-cell *matCellDef="let row" class="text-center">
+                    <button mat-stroked-button matTooltip="Eliminar Registro" color="accent"
+                            (click)="eliminarRegistro(row.id)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+
+
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
